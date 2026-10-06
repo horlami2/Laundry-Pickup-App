@@ -4,11 +4,11 @@ Express and MongoDB backend for a laundry pickup and delivery application. It pr
 
 ## API Documentation
 
-Interactive Swagger UI: [http://localhost:5001/api-docs](http://localhost:5001/api-docs)
+Interactive Swagger UI: [http://localhost:5000/api-docs](http://localhost:5000/api-docs)
 
 OpenAPI document: [`backend/saggwer.json`](backend/saggwer.json)
 
-The current Swagger instance is served on port `5001`. The backend's default port is controlled by `PORT` in `backend/.env`; update the server URL in `backend/saggwer.json` if you change ports.
+The Swagger instance uses the backend's default port, `5000`. The backend port is controlled by `PORT` in `backend/.env`; update the server URL in `backend/saggwer.json` if you change ports.
 
 ## Requirements
 
@@ -38,7 +38,7 @@ JWT_SECRET=replace_with_a_long_random_secret
 JWT_EXPIRES_IN=7d
 PAYSTACK_SECRET_KEY=your_paystack_secret_key
 PAYSTACK_PUBLIC_KEY=your_paystack_public_key
-PAYSTACK_CALLBACK_URL=http://localhost:3000/payment/callback
+PAYSTACK_CALLBACK_URL=http://localhost:5173/payment/callback
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
