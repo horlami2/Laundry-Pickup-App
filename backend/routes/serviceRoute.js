@@ -7,6 +7,7 @@ import {
   getServiceById,
   updateService,
   deleteService,
+  addStarterServices,
   toggleServiceStatus,
   // deactivateService,
   // activateService,
@@ -23,6 +24,8 @@ router.get("/active", getActiveServices);
 // Admin routes
 router.use(protect);
 router.use(authorize("admin"));
+
+router.post("/starter-catalog", addStarterServices);
 
 router.post("/", upload.single("image"), createService);
 

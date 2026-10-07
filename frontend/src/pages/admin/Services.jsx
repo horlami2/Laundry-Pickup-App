@@ -46,6 +46,7 @@ export default function AdminServices() {
   const { request, loading: saving } = useRequest();
   const { request: toggleReq, loading: toggling } = useRequest();
   const { request: deleteReq, loading: deleting } = useRequest();
+  const { request: seedReq, loading: seeding } = useRequest();
 
   const [open, setOpen] = useState(false);
   const [editing, setEditing] = useState(null);
@@ -122,6 +123,16 @@ export default function AdminServices() {
     }
   }
 
+  async function addStarterCatalog() {
+    try {
+      const result = await seedReq(() => serviceService.addStarterCatalog());
+      toast.success(result.message);
+      refetch();
+    } catch (e) {
+      toast.error(e.message);
+    }
+  }
+
   async function remove(svc) {
     if (!window.confirm(`Delete "${svc.name}"?`)) return;
     try {
@@ -150,11 +161,16 @@ export default function AdminServices() {
         <EmptyState
           icon={Sparkles}
           title="No services yet"
-          description="Create your first laundry service."
+          description="Add suggested laundry services with prices and images, or create your own."
           action={
-            <Button onClick={openCreate}>
-              <Plus className="w-4 h-4" /> New Service
-            </Button>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <Button onClick={addStarterCatalog} disabled={seeding}>
+                {seeding ? "Adding services…" : "Add suggested services"}
+              </Button>
+              <Button variant="outline" onClick={openCreate}>
+                <Plus className="w-4 h-4" /> New Service
+              </Button>
+            </div>
           }
         />
       ) : (

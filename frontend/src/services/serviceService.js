@@ -6,6 +6,8 @@ export const serviceService = {
       params: category ? { category } : undefined,
     }),
   getAll: () => apiRequest("/services"),
+  addStarterCatalog: () =>
+    apiRequest("/services/starter-catalog", { method: "POST" }),
   getOne: (id) => apiRequest(`/services/${id}`),
   create: (formData) =>
     apiRequest("/services", {
