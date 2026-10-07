@@ -24,10 +24,13 @@ export default function BrowseServices() {
   const navigate = useNavigate();
   const { user, isAuthenticated } = useAuth();
   const [prompt, setPrompt] = useState(null);
+  const orderDestination = prompt?._id
+    ? `${ORDER_DEST}?serviceId=${encodeURIComponent(prompt._id)}`
+    : ORDER_DEST;
 
   function selectService(svc) {
     if (isAuthenticated && user?.role === "customer") {
-      navigate(ORDER_DEST);
+      navigate(`${ORDER_DEST}?serviceId=${encodeURIComponent(svc._id)}`);
     } else {
       setPrompt(svc);
     }
@@ -205,12 +208,12 @@ export default function BrowseServices() {
           </DialogHeader>
           <DialogFooter className="flex-col sm:flex-row gap-2 sm:justify-end">
             <Button asChild variant="outline" className="w-full sm:w-auto">
-              <Link to="/login" state={{ from: ORDER_DEST }}>
+              <Link to="/login" state={{ from: orderDestination }}>
                 Log in
               </Link>
             </Button>
             <Button asChild className="w-full sm:w-auto">
-              <Link to="/register" state={{ from: ORDER_DEST }}>
+              <Link to="/register" state={{ from: orderDestination }}>
                 Create account
               </Link>
             </Button>

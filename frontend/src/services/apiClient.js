@@ -1,6 +1,10 @@
-const BASE_URL = (
-  import.meta.env.VITE_API_URL || "http://localhost:5000/api"
-).replace(/\/$/, "");
+const DEFAULT_API_URL = import.meta.env.PROD
+  ? "https://laundry-pickup-app.onrender.com/api"
+  : "http://localhost:5000/api";
+const BASE_URL = (import.meta.env.VITE_API_URL || DEFAULT_API_URL).replace(
+  /\/$/,
+  "",
+);
 
 let activeRequestCount = 0;
 const requestActivityListeners = new Set();

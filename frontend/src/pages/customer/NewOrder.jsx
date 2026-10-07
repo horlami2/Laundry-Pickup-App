@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo, useState } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "sonner";
 import { useFetch } from "@/hooks/useFetch";
 import { useRequest } from "@/hooks/useRequest";
@@ -35,7 +35,12 @@ const TIME_SLOTS = [
 
 export default function NewOrder() {
   const navigate = useNavigate();
-  const { data, loading } = useFetch(() => serviceService.getActive(), []);
+  const [searchParams] = useSearchParams();
+  const selectedServiceId = searchParams.get("serviceId");
+  const { data, loading, error, refetch } = useFetch(
+    () => serviceService.getActive(),
+    [],
+  );
   const { request, loading: submitting } = useRequest();
   const services = data?.services || EMPTY_SERVICES;
 
@@ -55,6 +60,17 @@ export default function NewOrder() {
     pickupTimeSlot: "",
     customerNote: "",
   });
+
+  useEffect(() => {
+    if (loading || !selectedServiceId) return;
+    if (services.some((service) => service._id === selectedServiceId)) {
+      setCart((current) =>
+        current[selectedServiceId]
+          ? current
+          : { ...current, [selectedServiceId]: 1 },
+      );
+    }
+  }, [loading, selectedServiceId, services]);
 
   const subtotal = useMemo(
     () =>
@@ -150,7 +166,21 @@ export default function NewOrder() {
               <CardTitle>1. Choose Services</CardTitle>
             </CardHeader>
             <CardContent className="grid sm:grid-cols-2 gap-3">
-              {services.length === 0 && (
+              {error && (
+                <div className="text-sm text-destructive sm:col-span-2">
+                  <p>Unable to load services. {error.message}</p>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    className="mt-2"
+                    onClick={refetch}
+                  >
+                    Try again
+                  </Button>
+                </div>
+              )}
+              {!error && services.length === 0 && (
                 <p className="text-sm text-muted-foreground sm:col-span-2">
                   No services available right now.
                 </p>
