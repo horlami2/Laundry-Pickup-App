@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -15,6 +15,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import NotificationBell from "@/components/NotificationBell";
 import {
   LayoutDashboard,
+  Home,
+  Store,
   ShoppingBag,
   Plus,
   Bell,
@@ -77,6 +79,25 @@ function NavItems({ items, onNavigate }) {
   ));
 }
 
+function PublicNavItems({ onNavigate }) {
+  const links = [
+    { to: "/services#home", label: "Home", icon: Home },
+    { to: "/services#services", label: "Our Services", icon: Store },
+  ];
+
+  return links.map(({ to, label, icon: Icon }) => (
+    <Link
+      key={to}
+      to={to}
+      onClick={onNavigate}
+      className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-sidebar-foreground hover:bg-sidebar-accent transition-colors"
+    >
+      <Icon className="w-4 h-4" />
+      {label}
+    </Link>
+  ));
+}
+
 function SidebarContent({ items, onNavigate }) {
   return (
     <div className="flex h-full flex-col">
@@ -88,8 +109,20 @@ function SidebarContent({ items, onNavigate }) {
           LaundryPickup
         </span>
       </div>
-      <nav className="flex-1 p-3 space-y-1 overflow-y-auto">
-        <NavItems items={items} onNavigate={onNavigate} />
+      <nav className="flex-1 overflow-y-auto p-3">
+        <div className="space-y-1">
+          <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase text-muted-foreground">
+            Storefront
+          </p>
+          <PublicNavItems onNavigate={onNavigate} />
+        </div>
+        <div className="my-3 border-t border-sidebar-border" />
+        <div className="space-y-1">
+          <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase text-muted-foreground">
+            Account
+          </p>
+          <NavItems items={items} onNavigate={onNavigate} />
+        </div>
       </nav>
     </div>
   );

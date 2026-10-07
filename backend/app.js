@@ -16,6 +16,11 @@ import notFound from "./middleware/notFoundMiddleware.js";
 import errorHandler from "./middleware/errorMiddleware.js";
 
 const app = express();
+const allowedOrigins = [
+  "https://laundry-pickup-app-chi.vercel.app",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+];
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const openApiSpec = JSON.parse(
   readFileSync(path.join(__dirname, "saggwer.json"), "utf8"),
@@ -55,7 +60,7 @@ app.use(
 // GLOBAL MIDDLEWARE
 // ========================
 
-app.use(cors());
+app.use(cors({ origin: allowedOrigins }));
 app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));

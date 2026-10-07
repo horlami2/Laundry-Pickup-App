@@ -1,6 +1,6 @@
 # Laundry Pickup API
 
-Express and MongoDB backend for a laundry pickup and delivery application. It provides customer authentication and orders, admin operations, delivery-agent workflows, service catalog management, Paystack payments, and notifications.
+Laundry pickup and delivery application with a React frontend and an Express/MongoDB API. It provides customer authentication and orders, admin operations, delivery-agent workflows, service catalog management, Paystack payments, and notifications.
 
 ## API Documentation
 
@@ -38,7 +38,7 @@ JWT_SECRET=replace_with_a_long_random_secret
 JWT_EXPIRES_IN=7d
 PAYSTACK_SECRET_KEY=your_paystack_secret_key
 PAYSTACK_PUBLIC_KEY=your_paystack_public_key
-PAYSTACK_CALLBACK_URL=http://localhost:5173/payment/callback
+PAYSTACK_CALLBACK_URL=https://laundry-pickup-app-chi.vercel.app/payment/callback
 CLOUDINARY_CLOUD_NAME=your_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
@@ -46,6 +46,18 @@ NODE_ENV=development
 ```
 
 Do not commit `.env` or real credentials. The example file is safe to commit.
+
+## Frontend
+
+In a separate terminal, install dependencies and start the Vite development server:
+
+```powershell
+cd frontend
+npm install
+npm run dev
+```
+
+The frontend uses `http://localhost:5000/api` by default. To use a different API URL, set `VITE_API_URL` in the frontend environment (for example, `VITE_API_URL=https://your-api.example.com/api`). The backend currently accepts browser requests from `https://laundry-pickup-app-chi.vercel.app`, `http://localhost:5173`, and `http://127.0.0.1:5173`; update the allowed origins in `backend/app.js` when deploying the frontend to another domain.
 
 ## Authentication
 
@@ -68,6 +80,8 @@ Swagger UI has an **Authorize** control for setting this token. Role-protected o
 - `/api/notifications`: list, count, and mark notifications read
 
 The full request bodies, query parameters, authentication requirements, response examples, and error responses are documented in Swagger UI.
+
+The dashboard sidebar includes links to the public storefront home page and service catalog.
 
 ## Service Images
 
