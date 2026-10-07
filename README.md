@@ -57,7 +57,7 @@ npm install
 npm run dev
 ```
 
-The frontend uses `http://localhost:5000/api` by default. To use a different API URL, set `VITE_API_URL` in the frontend environment (for example, `VITE_API_URL=https://your-api.example.com/api`). The backend currently accepts browser requests from `https://laundry-pickup-app-chi.vercel.app`, `http://localhost:5173`, and `http://127.0.0.1:5173`; update the allowed origins in `backend/app.js` when deploying the frontend to another domain.
+In development, the frontend uses `http://localhost:5000/api` by default. Production builds use `https://laundry-pickup-app.onrender.com/api` unless `VITE_API_URL` is set in the deployment environment. The backend currently accepts browser requests from `https://laundry-pickup-app-chi.vercel.app`. Local frontend origins are disabled; uncomment the localhost origins in `backend/app.js` when developing locally. Add any new frontend deployment domain to the backend's CORS allowlist.
 
 ## Authentication
 
@@ -81,7 +81,25 @@ Swagger UI has an **Authorize** control for setting this token. Role-protected o
 
 The full request bodies, query parameters, authentication requirements, response examples, and error responses are documented in Swagger UI.
 
-The dashboard sidebar includes links to the public storefront home page and service catalog.
+The dashboard sidebar includes a storefront home link. Admin and delivery-agent sidebars also link to the service catalog; customers select services through New Order.
+
+## Starter Service Catalog
+
+When no services exist, an admin can open **Services** and choose **Add suggested services**. This creates active, orderable database records with item images and the following suggested NGN prices. Existing services with the same names are not overwritten.
+
+| Service         |  Suggested price |
+| --------------- | ---------------: |
+| Duvet           |  ₦5,000 per item |
+| Shirt           |  ₦2,000 per item |
+| Wedding gown    | ₦10,000 per item |
+| Suit            | ₦15,000 per item |
+| Complete Agbada | ₦20,000 per item |
+| Jeans           |  ₦5,000 per item |
+| Bedsheet        |  ₦5,000 per item |
+| School bag      |  ₦5,000 per item |
+| Blanket         |  ₦5,000 per item |
+| Towel           |  ₦2,000 per item |
+| Curtains        | ₦3,000 per panel |
 
 ## Service Images
 

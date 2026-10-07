@@ -26,7 +26,6 @@ import {
   ClipboardList,
   Sparkles,
   Shirt,
-  Github,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -41,7 +40,6 @@ const navByRole = {
     { to: "/admin", label: "Dashboard", icon: LayoutDashboard, end: true },
     { to: "/admin/orders", label: "Orders", icon: ClipboardList },
     { to: "/admin/services", label: "Services", icon: Sparkles },
-    { to: "/admin/github-sync", label: "Repo Sync", icon: Github },
     { to: "/admin/notifications", label: "Notifications", icon: Bell },
   ],
   delivery_agent: [
@@ -79,10 +77,12 @@ function NavItems({ items, onNavigate }) {
   ));
 }
 
-function PublicNavItems({ onNavigate }) {
+function PublicNavItems({ onNavigate, role }) {
   const links = [
     { to: "/services#home", label: "Home", icon: Home },
-    { to: "/services#services", label: "Our Services", icon: Store },
+    ...(role === "customer"
+      ? []
+      : [{ to: "/services#services", label: "Our Services", icon: Store }]),
   ];
 
   return links.map(({ to, label, icon: Icon }) => (
@@ -98,7 +98,7 @@ function PublicNavItems({ onNavigate }) {
   ));
 }
 
-function SidebarContent({ items, onNavigate }) {
+function SidebarContent({ items, onNavigate, role }) {
   return (
     <div className="flex h-full flex-col">
       <div className="flex items-center gap-2 px-5 h-16 border-b border-sidebar-border">
@@ -114,7 +114,7 @@ function SidebarContent({ items, onNavigate }) {
           <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase text-muted-foreground">
             Storefront
           </p>
-          <PublicNavItems onNavigate={onNavigate} />
+          <PublicNavItems onNavigate={onNavigate} role={role} />
         </div>
         <div className="my-3 border-t border-sidebar-border" />
         <div className="space-y-1">
@@ -148,7 +148,7 @@ export default function DashboardLayout() {
   return (
     <div className="min-h-screen bg-muted/30">
       <aside className="hidden lg:flex flex-col fixed inset-y-0 left-0 w-64 bg-sidebar text-sidebar-foreground border-r border-sidebar-border">
-        <SidebarContent items={items} />
+        <SidebarContent items={items} role={user?.role} />
       </aside>
 
       <Sheet open={open} onOpenChange={setOpen}>
@@ -203,7 +203,11 @@ export default function DashboardLayout() {
           </main>
         </div>
         <SheetContent side="left" className="w-72 p-0 bg-sidebar">
-          <SidebarContent items={items} onNavigate={() => setOpen(false)} />
+          <SidebarContent
+            items={items}
+            onNavigate={() => setOpen(false)}
+            role={user?.role}
+          />
         </SheetContent>
       </Sheet>
     </div>

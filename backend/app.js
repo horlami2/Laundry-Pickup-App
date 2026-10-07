@@ -18,8 +18,8 @@ import errorHandler from "./middleware/errorMiddleware.js";
 const app = express();
 const allowedOrigins = [
   "https://laundry-pickup-app-chi.vercel.app",
-  "http://localhost:5173",
-  "http://127.0.0.1:5173",
+  // "http://localhost:5173",
+  // "http://127.0.0.1:5173",
 ];
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const openApiSpec = JSON.parse(
